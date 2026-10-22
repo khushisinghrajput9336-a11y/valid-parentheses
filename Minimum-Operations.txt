@@ -1,0 +1,44 @@
+
+class Solution {
+    public int minOperations(int[] nums) {
+        int n = nums.length;
+        int zero = 0;
+
+        for (int i = 0; i < n; i++) {
+            if (nums[i] == 0) {
+                zero = i;
+                break;
+            }
+        }
+
+        int ans = Integer.MAX_VALUE;
+
+        boolean ok = true;
+        for (int i = 0; i < n; i++) {
+            if (nums[(i + zero) % n] != i) {
+                ok = false;
+                break;
+            }
+        }
+
+        if (ok) {
+            ans = Math.min(ans, Math.min(zero, n - zero + 2));
+        }
+
+        int k = (zero + 1) % n;
+        ok = true;
+
+        for (int i = 0; i < n; i++) {
+            if (nums[(n - 1 - i + k) % n] != i) {
+                ok = false;
+                break;
+            }
+        }
+
+        if (ok) {
+            ans = Math.min(ans, 1 + Math.min(k, n - k));
+        }
+
+        return ans == Integer.MAX_VALUE ? -1 : ans;
+    }
+}
